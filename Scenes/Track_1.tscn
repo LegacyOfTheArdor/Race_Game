@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bte0kfwey7s5f"]
+[gd_scene load_steps=10 format=3 uid="uid://bte0kfwey7s5f"]
 
 [ext_resource type="Texture2D" uid="uid://dt2hxdtaa0jcm" path="res://icon.svg" id="1_h5xbw"]
 [ext_resource type="Script" path="res://Race_Game/Scripts/Player_Controller.gd" id="2_np4yr"]
 [ext_resource type="PackedScene" uid="uid://8nv42twtlrug" path="res://Race_Game/Assets/Car.tscn" id="3_cxsmd"]
+[ext_resource type="Script" path="res://Race_Game/Scripts/Car_controller.gd" id="4_jtlb0"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_46e0g"]
 
@@ -39,10 +40,17 @@ script = ExtResource("2_np4yr")
 Car = NodePath("Car")
 
 [node name="Car" parent="Player" instance=ExtResource("3_cxsmd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.7031, 0.485329, -2.76031)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.485, -3.70044)
+script = ExtResource("4_jtlb0")
+Max_Turn_Angle = 0.5
+Max_Speed = 20.0
+Acceleration = 10.0
+Brake_Strength = 15.0
+Turn_Speed = 1.5
+Gravity = 30.0
 
 [node name="Camera3D" type="Camera3D" parent="Player/Car"]
-transform = Transform3D(1, 0, 0, 0, 0.965473, 0.260505, 0, -0.260505, 0.965473, 0.221416, 2.23153, 3.69563)
+transform = Transform3D(1, 0, 0, 0, 0.965473, 0.260505, 0, -0.260505, 0.965473, 0, 2.232, 3.70044)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 90, 0)

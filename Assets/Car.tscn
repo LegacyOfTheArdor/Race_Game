@@ -1,38 +1,46 @@
 [gd_scene load_steps=5 format=3 uid="uid://8nv42twtlrug"]
 
-[ext_resource type="Script" path="res://Race_Game/Scripts/Car_controller.gd" id="1_1a3y3"]
+[ext_resource type="Script" path="res://Race_Game/Scripts/Player_Controller.gd" id="1_wu6ip"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ucjvn"]
-size = Vector3(1.11798, 1.08493, 1.9903)
+[sub_resource type="BoxShape3D" id="BoxShape3D_b4lik"]
+size = Vector3(1.12207, 1.09558, 2.00879)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_aok7g"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_5rkxh"]
 
-[node name="Car" type="Node3D"]
-script = ExtResource("1_1a3y3")
+[node name="Car" type="CharacterBody3D"]
+script = ExtResource("1_wu6ip")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00497437, 0.536514, 0.60849)
-shape = SubResource("BoxShape3D_ucjvn")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00537109, 0.542542, 0.616699)
+shape = SubResource("BoxShape3D_b4lik")
 
-[node name="Body" type="MeshInstance3D" parent="."]
+[node name="Body" type="Node3D" parent="."]
+
+[node name="Mesh" type="MeshInstance3D" parent="Body"]
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, -0.0019428, 0.584723, 0.613369)
 mesh = SubResource("CapsuleMesh_aok7g")
 skeleton = NodePath("")
 
 [node name="Front_Wheel_Left" type="MeshInstance3D" parent="Body"]
-transform = Transform3D(0.53, 4.32574e-12, 4.63339e-08, -4.63339e-08, 9.89598e-05, 0.529997, -8.49085e-11, -0.0269998, 0.00194253, -0.324831, -0.62281, -0.530634)
+transform = Transform3D(-8.49095e-11, -0.0269998, 0.00194255, 0.53, 6.85216e-17, 2.3167e-08, -2.31669e-08, 9.8961e-05, 0.529997, -0.532577, 0.259892, -0.00944102)
 mesh = SubResource("CylinderMesh_5rkxh")
+skeleton = NodePath("../Mesh")
 
 [node name="Front_Wheel_Right" type="MeshInstance3D" parent="Body"]
-transform = Transform3D(0.53, 4.32574e-12, 4.63339e-08, -4.63339e-08, 9.89598e-05, 0.529997, -8.49085e-11, -0.0269998, 0.00194253, -0.324831, -0.626683, 0.525966)
+transform = Transform3D(-2.3167e-08, -0.027, 0, 0.53, -1.18021e-09, 0, 0, 0, 0.530001, 0.524023, 0.259892, -0.013314)
 mesh = SubResource("CylinderMesh_5rkxh")
+skeleton = NodePath("../Mesh")
 
 [node name="Back_Wheel_Left" type="MeshInstance3D" parent="Body"]
-transform = Transform3D(0.53, 4.32574e-12, 4.63339e-08, -4.63339e-08, 9.89598e-05, 0.529997, -8.49085e-11, -0.0269998, 0.00194253, -0.324831, 0.673785, -0.525881)
+transform = Transform3D(-8.49095e-11, -0.0269998, 0.00194255, 0.53, 6.85216e-17, 2.3167e-08, -2.31669e-08, 9.8961e-05, 0.529997, -0.527824, 0.259892, 1.28715)
 mesh = SubResource("CylinderMesh_5rkxh")
+skeleton = NodePath("../Mesh")
 
 [node name="Back_Wheel_Right" type="MeshInstance3D" parent="Body"]
-transform = Transform3D(0.53, 4.32574e-12, 4.63339e-08, -4.63339e-08, 9.89598e-05, 0.529997, -8.49085e-11, -0.0269998, 0.00194253, -0.324831, 0.669912, 0.530719)
+transform = Transform3D(-8.49095e-11, -0.0269998, 0.00194255, 0.53, 6.85216e-17, 2.3167e-08, -2.31669e-08, 9.8961e-05, 0.529997, 0.528776, 0.259892, 1.28328)
 mesh = SubResource("CylinderMesh_5rkxh")
+skeleton = NodePath("../Mesh")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
