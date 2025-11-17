@@ -4,6 +4,9 @@ extends Node
 # Reference to the kart controller
 @export var Car: Node3D
 
+func _ready() -> void:
+	Car.set_driver(self)
+
 func _process(_delta):
 	if Car == null:
 		return

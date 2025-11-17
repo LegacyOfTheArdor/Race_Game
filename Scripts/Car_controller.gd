@@ -1,19 +1,20 @@
 extends CharacterBody3D
 
 
-@onready var Front_Wheel_Left  = $Body/Front_Wheel_Left
-@onready var Front_Wheel_Right = $Body/Front_Wheel_Right
-@onready var Back_Wheel_Left   = $Body/Back_Wheel_Left
-@onready var Back_Wheel_Right  = $Body/Back_Wheel_Right
+@onready var Front_Wheel_Left  = $Body/root/GLTF_SceneRootNode/Front_Wheel_Left
+@onready var Front_Wheel_Right = $Body/root/GLTF_SceneRootNode/Front_Wheel_Right
+
 
 
 @export var Max_Turn_Angle = 0.5      
-@export var Max_Speed      = 20.0      
+@export var Max_Speed      = 15.0      
 @export var Acceleration   = 10.0      
 @export var Brake_Strength = 15.0     
-@export var Turn_Speed     = 1.5       
+@export var Max_Turn_Speed = 1.5   
+@export var Turn_Response_Curve := 1
 @export var Gravity        = 30.0      
 
+var Driver: Node = null
 
 var Left_Input: float = 0.0
 var Right_Input: float = 0.0
@@ -25,6 +26,7 @@ var Speed: float = 0.0
 var Direction: float = 1.0
 var Steer_Input: float = 0.0
 var Steer_Angle: float = 0.0
+var Turn_Speed: float = 0.0
 var Forward_Direction: Vector3
 
 
@@ -34,6 +36,8 @@ func set_inputs(left: float, right: float, brake: float, acceleration: float):
 	Brake_Input = brake
 	Acceleration_Input = acceleration
 
+func set_driver(the_driver: Node):
+	Driver = the_driver
 
 func _physics_process(delta: float):
 	#gravity
@@ -42,7 +46,7 @@ func _physics_process(delta: float):
 	else:
 		velocity.y = 0.0
 
-	#steering
+									#steering		
 	Steer_Input = Left_Input - Right_Input
 	var target_steer = Steer_Input * Max_Turn_Angle
 	Steer_Angle = lerp(Steer_Angle, target_steer, 0.2)
@@ -57,9 +61,12 @@ func _physics_process(delta: float):
 	else:
 		Speed = lerp(Speed, 0.0, 0.05)
 
-	# Clamp to max speed
+	#max speed
 	Speed = clamp(Speed, 0.0, Max_Speed)
-
+	
+	var speed_ratio = Speed / Max_Speed
+	Turn_Speed = pow(speed_ratio, Turn_Response_Curve) * Max_Turn_Speed
+	Turn_Speed = clamp(Turn_Speed, 0.0, Max_Turn_Speed)
 	
 	if abs(Speed) > 0.1:
 		rotation.y += Steer_Angle * Turn_Speed * delta * Direction
@@ -73,5 +80,5 @@ func _physics_process(delta: float):
 	move_and_slide()
 
 	
-	Front_Wheel_Left.rotation.y = Steer_Angle
-	Front_Wheel_Right.rotation.y = Steer_Angle
+	Front_Wheel_Left.rotation.y = Steer_Angle / 2
+	Front_Wheel_Right.rotation.y = Steer_Angle / 2
